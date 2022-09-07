@@ -1,9 +1,10 @@
 from tkinter import *
+from tkinter import messagebox
 from data import question_data
 from quiz_brain import QuizBrain
 
 THEME_COLOR = "#375362"
-
+ASKED = 0
 
 class QuizInterface:
 
@@ -19,16 +20,17 @@ class QuizInterface:
         # card joke
         self.joke = self.card.create_text(150,
                                           125,
+                                          width=280,
                                           text="Some question text.",
                                           fill=THEME_COLOR,
                                           font=("Arial", 20, "italic")
                                           )
         # buttons
         self.true = PhotoImage(file="images/true.png")
-        self.true_button = Button(image=self.true, command=lambda: self.quiz)
+        self.true_button = Button(image=self.true, command=self.get_next_question_right)
         self.true_button.grid(column=0, row=2)
         self.false = PhotoImage(file="images/false.png")
-        self.false_button = Button(image=self.false, command=lambda: self.quiz)
+        self.false_button = Button(image=self.false, command=self.get_next_question)
         self.false_button.grid(column=1, row=2)
         # score
         self.score = Label(text="Score: 0", fg="white", bg=THEME_COLOR)
@@ -36,6 +38,25 @@ class QuizInterface:
         self.get_next_question()
         self.window.mainloop()
 
+    def last_question(self):
+        if ASKED == 10:
+            messagebox.showinfo(title="Quiz Complete", message="That was the last Question.")
+        else:
+            pass
+
     def get_next_question(self):
+        global ASKED
+        ASKED += 1
         q_text = self.quiz.next_question()
         self.card.itemconfig(self.joke, text=q_text)
+        self.last_question()
+
+    def get_next_question_right(self):
+        global ASKED
+        ASKED += 1
+        print(ASKED)
+        q_text = self.quiz.next_question()
+        self.card.itemconfig(self.joke, text=q_text)
+        self.score.config(text=f"Score: {ASKED}")
+        self.last_question()
+
