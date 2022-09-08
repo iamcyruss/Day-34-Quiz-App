@@ -1,4 +1,5 @@
 import html
+#from ui import QuizInterface as qi
 
 
 class QuizBrain:
@@ -24,9 +25,12 @@ class QuizBrain:
         correct_answer = self.current_question.answer
         if user_answer.lower() == correct_answer.lower():
             self.score += 1
-            print("You got it right!")
+            answer = "You got it right!"
+            return answer, self.next_question(), self.score, self.question_number
         else:
-            print("That's wrong.")
+            answer = "That's wrong."
+            return answer, self.next_question(), self.score, self.question_number
+            #QuizInterface().next_question(answer, next_question(), self.score)
 
-        print(f"Your current score is: {self.score}/{self.question_number}")
-        print("\n")
+        #print(f"Your current score is: {self.score}/{self.question_number}")
+        #print("\n")

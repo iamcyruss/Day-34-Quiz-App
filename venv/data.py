@@ -10,7 +10,7 @@ response = requests.get(end_point, params=params)
 response.raise_for_status()
 
 question_data = response.json()['results']
-print(question_data)
+#print(question_data)
 
 """
 question_data = [
