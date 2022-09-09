@@ -46,18 +46,26 @@ class QuizInterface:
             pass
 
     def false_answer(self):
-        self.answer_return = self.quiz.check_answer("False")
-        self.score.config(text=f"Score: {self.answer_return[2]}")
-        messagebox.showinfo(title="Answer", message=self.answer_return[0])
-        self.card.itemconfig(self.joke, text=self.answer_return[1])
-        self.last_question(self.answer_return[3], self.answer_return[2])
+        if self.quiz.still_has_questions():
+            self.answer_return = self.quiz.check_answer("False")
+            self.score.config(text=f"Score: {self.answer_return[2]}")
+            messagebox.showinfo(title="Answer", message=self.answer_return[0])
+            self.card.itemconfig(self.joke, text=self.answer_return[1])
+        else:
+            messagebox.showinfo(title="Quiz Complete",
+                                message=f"That was the last Question.\nYou got {self.quiz.score}/10 correct.")
+            self.window.quit()
 
     def true_answer(self):
-        self.answer_return = self.quiz.check_answer("True")
-        self.score.config(text=f"Score: {self.answer_return[2]}")
-        messagebox.showinfo(title="Answer", message=self.answer_return[0])
-        self.card.itemconfig(self.joke, text=self.answer_return[1])
-        self.last_question(self.answer_return[3], self.answer_return[2])
+        if self.quiz.still_has_questions():
+            self.answer_return = self.quiz.check_answer("True")
+            self.score.config(text=f"Score: {self.answer_return[2]}")
+            messagebox.showinfo(title="Answer", message=self.answer_return[0])
+            self.card.itemconfig(self.joke, text=self.answer_return[1])
+        else:
+            messagebox.showinfo(title="Quiz Complete",
+                                message=f"That was the last Question.\nYou got {self.quiz.score}/10 correct.")
+            self.window.quit()
 
     def next_question_ui(self, answer, new_question, score):
         messagebox.showinfo(title="Answer", message=answer)
